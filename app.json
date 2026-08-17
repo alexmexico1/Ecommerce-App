@@ -24,8 +24,11 @@
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png",
-      "backgroundColor": "#F7F4FC",
-      "themeColor": "#7C3AED"
+      "backgroundColor": "#F7F7FB",
+      "themeColor": "#6D28D9",
+      "name": "ALEX OBI",
+      "shortName": "ALEX OBI",
+      "description": "ALEX OBI \u2014 Premium essentials for modern living."
     },
     "plugins": [
       "expo-router",

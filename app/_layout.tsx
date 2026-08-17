@@ -2,26 +2,27 @@ import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ShopProvider, useShop } from '../context/ShopContext';
-import { installPremiumWebTheme, setPremiumTheme, installAlexObiVisibilityCSS } from '../lib/premiumWebTheme';
+import { installPremiumWebTheme } from '../lib/premiumWebTheme';
 
-function AppShell() {
-  const { isDark, theme } = useShop();
+function RootNavigator() {
+  const { isDark } = useShop();
 
   useEffect(() => {
-    installPremiumWebTheme();
-    installAlexObiVisibilityCSS();
-    setPremiumTheme(theme === 'dark' ? 'dark' : 'light');
-  }, [theme]);
+    const cleanup = installPremiumWebTheme();
+
+    return () => {
+      if (typeof cleanup === 'function') cleanup();
+    };
+  }, []);
 
   return (
     <>
       <StatusBar style={isDark ? 'light' : 'dark'} />
-
       <Stack
         screenOptions={{
           headerShown: false,
           contentStyle: {
-            backgroundColor: isDark ? '#090611' : '#FFFFFF',
+            backgroundColor: isDark ? '#0B0910' : '#F7F7FB',
           },
         }}
       />
@@ -32,7 +33,7 @@ function AppShell() {
 export default function RootLayout() {
   return (
     <ShopProvider>
-      <AppShell />
+      <RootNavigator />
     </ShopProvider>
   );
 }
