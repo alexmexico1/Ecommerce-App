@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useShop } from '../context/ShopContext';
-import { installPremiumWebTheme } from '../lib/premiumWebTheme';
+import { ShopProvider, useShop } from '../context/ShopContext';
+import { installPremiumWebTheme, setPremiumTheme } from '../lib/premiumWebTheme';
 
 function AppShell() {
-  const { isDark } = useShop();
+  const { isDark, theme } = useShop();
 
   useEffect(() => {
     installPremiumWebTheme();
-  }, []);
+    setPremiumTheme(theme === 'dark' ? 'dark' : 'light');
+  }, [theme]);
 
   return (
     <>
       <StatusBar style={isDark ? 'light' : 'dark'} />
+
       <Stack
         screenOptions={{
           headerShown: false,
-          animation: 'fade',
           contentStyle: {
-            backgroundColor: isDark ? '#0B0714' : '#FAF8FF',
+            backgroundColor: isDark ? '#090611' : '#FFFFFF',
           },
         }}
       />
@@ -28,5 +29,9 @@ function AppShell() {
 }
 
 export default function RootLayout() {
-  return <AppShell />;
+  return (
+    <ShopProvider>
+      <AppShell />
+    </ShopProvider>
+  );
 }

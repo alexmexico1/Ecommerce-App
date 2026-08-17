@@ -197,3 +197,8 @@ export function installPremiumWebTheme() {
 
   setPremiumTheme(getPremiumTheme());
 }
+
+
+export function setPremiumWebTheme(theme: PremiumTheme) {
+  return setPremiumTheme(theme);
+}

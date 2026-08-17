@@ -1,0 +1,104 @@
+:root {
+  --alex-brand: #7c3aed;
+  --alex-brand-dark: #5b21b6;
+  --alex-accent: #a855f7;
+  --alex-text: #111111;
+  --alex-muted: #666666;
+  --alex-surface: #ffffff;
+  --alex-surface-2: #f6f3ff;
+  --alex-border: #e5e0ee;
+}
+
+html,
+body,
+#root {
+  background: #ffffff !important;
+  color: #111111 !important;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+a {
+  color: inherit;
+}
+
+[data-theme="dark"],
+.dark {
+  --alex-text: #ffffff;
+  --alex-muted: #c4bdd1;
+  --alex-surface: #090611;
+  --alex-surface-2: #130d1d;
+  --alex-border: #30233d;
+}
+
+html[data-theme="dark"],
+html.dark,
+html[data-theme="dark"] body,
+html.dark body,
+html[data-theme="dark"] #root,
+html.dark #root {
+  background: #090611 !important;
+  color: #ffffff !important;
+}
+
+/* ALEX OBI brand */
+header img[alt*="ALEX"],
+header img[alt*="Alex"],
+.logo,
+.brand,
+.brand-name,
+[class*="brand"],
+[class*="logo"] {
+  color: var(--alex-brand) !important;
+}
+
+/* Prevent white text disappearing on white surfaces */
+section,
+main,
+article,
+footer,
+nav {
+  --safe-text: var(--alex-text);
+}
+
+body:not(.dark) [style*="color: white"],
+body:not(.dark) [style*="color: #fff"],
+body:not(.dark) [style*="color:#fff"],
+body:not(.dark) [style*="color: rgb(255, 255, 255)"] {
+  color: #111111 !important;
+}
+
+.alex-brand {
+  color: var(--alex-brand) !important;
+}
+
+.alex-muted {
+  color: var(--alex-muted) !important;
+}
+
+.alex-surface {
+  background: var(--alex-surface) !important;
+  color: var(--alex-text) !important;
+}
+
+.alex-promo {
+  background:
+    linear-gradient(135deg, #5b21b6 0%, #7c3aed 48%, #a855f7 100%) !important;
+  color: #ffffff !important;
+}
+
+.alex-promo * {
+  color: #ffffff !important;
+}
+
+.alex-footer {
+  background: #111111 !important;
+  color: #ffffff !important;
+}
+
+.alex-footer * {
+  color: #ffffff !important;
+}
