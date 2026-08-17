@@ -1,569 +1,199 @@
-type ThemeName = 'light' | 'dark';
-
-const STYLE_ID = 'alex-obi-real-theme';
+export type PremiumTheme = 'light' | 'dark';
 
 const LIGHT = {
-  bg: '#F7F5FC',
+  background: '#FAF8FF',
   surface: '#FFFFFF',
-  surface2: '#F0ECF8',
-  text: '#171329',
-  muted: '#675F78',
-  border: '#DED7EA',
-  brand: '#6D28D9',
-  brand2: '#8B5CF6',
-  brandSoft: '#EDE9FE',
-  danger: '#DC2626',
-  success: '#059669',
+  surface2: '#F4F0FF',
+  text: '#171122',
+  muted: '#6D647D',
+  border: '#E6DFF0',
+  brand: '#7C3AED',
+  brand2: '#A855F7',
+  accent: '#EC4899',
 };
 
 const DARK = {
-  bg: '#0D0A14',
-  surface: '#17121F',
-  surface2: '#21192D',
-  text: '#F8F7FC',
-  muted: '#B9B0C8',
-  border: '#352B43',
+  background: '#0B0714',
+  surface: '#151021',
+  surface2: '#211634',
+  text: '#F8F5FF',
+  muted: '#B9ADC9',
+  border: '#342542',
   brand: '#A78BFA',
   brand2: '#C084FC',
-  brandSoft: '#2A1D3D',
-  danger: '#FB7185',
-  success: '#34D399',
+  accent: '#F472B6',
 };
 
-function vars(theme: ThemeName) {
-  const c = theme === 'dark' ? DARK : LIGHT;
-
-  return `
-    --ao-bg:${c.bg};
-    --ao-surface:${c.surface};
-    --ao-surface-2:${c.surface2};
-    --ao-text:${c.text};
-    --ao-muted:${c.muted};
-    --ao-border:${c.border};
-    --ao-brand:${c.brand};
-    --ao-brand-2:${c.brand2};
-    --ao-brand-soft:${c.brandSoft};
-    --ao-danger:${c.danger};
-    --ao-success:${c.success};
-  `;
+function getTheme(): PremiumTheme {
+  if (typeof document === 'undefined') return 'light';
+  return document.documentElement.dataset.theme === 'dark'
+    ? 'dark'
+    : 'light';
 }
 
-function css() {
-  return `
-    :root {
-      ${vars('light')}
-      color-scheme: light;
-    }
-
-    html[data-ao-theme="light"] {
-      ${vars('light')}
-      color-scheme: light;
-    }
-
-    html[data-ao-theme="dark"] {
-      ${vars('dark')}
-      color-scheme: dark;
-    }
-
-    html,
-    body,
-    #root {
-      min-height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    html,
-    body {
-      background: var(--ao-bg) !important;
-      color: var(--ao-text) !important;
-    }
-
-    body {
-      transition:
-        background-color .22s ease,
-        color .22s ease;
-    }
-
-    #root {
-      background: var(--ao-bg) !important;
-      color: var(--ao-text) !important;
-    }
-
-    /*
-      IMPORTANT:
-      Do not globally force every element to white or black.
-      Components can still use their own colors.
-    */
-
-    input,
-    textarea,
-    select {
-      background: var(--ao-surface) !important;
-      color: var(--ao-text) !important;
-      border-color: var(--ao-border) !important;
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-      color: var(--ao-muted) !important;
-      opacity: 1 !important;
-    }
-
-    /*
-      Common React Native Web surfaces.
-    */
-    [data-ao-surface],
-    .card,
-    .product-card,
-    .productCard,
-    .surface,
-    .panel,
-    .section-card,
-    .modal,
-    [role="dialog"] {
-      color: var(--ao-text);
-    }
-
-    /*
-      Light mode must never leave ordinary text white on a light page.
-      The runtime below catches inline React Native styles too.
-    */
-    html[data-ao-theme="light"] p,
-    html[data-ao-theme="light"] span,
-    html[data-ao-theme="light"] h1,
-    html[data-ao-theme="light"] h2,
-    html[data-ao-theme="light"] h3,
-    html[data-ao-theme="light"] h4,
-    html[data-ao-theme="light"] h5,
-    html[data-ao-theme="light"] h6,
-    html[data-ao-theme="light"] label {
-      --ao-safe-text: var(--ao-text);
-    }
-
-    /*
-      Premium ALEX OBI branding.
-    */
-    [data-ao-brand],
-    .ao-brand,
-    .alex-obi-brand {
-      color: var(--ao-brand) !important;
-    }
-
-    .ao-gradient-text {
-      background: linear-gradient(
-        135deg,
-        var(--ao-brand),
-        var(--ao-brand-2)
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent !important;
-    }
-
-    /*
-      Buttons with a filled brand background keep white text.
-    */
-    button[data-ao-primary],
-    a[data-ao-primary],
-    .ao-primary-button {
-      color: #FFFFFF !important;
-      background:
-        linear-gradient(
-          135deg,
-          var(--ao-brand),
-          var(--ao-brand-2)
-        ) !important;
-      border-color: transparent !important;
-    }
-
-    /*
-      Theme toggle.
-    */
-    [data-theme-toggle],
-    .theme-toggle,
-    .ao-theme-toggle {
-      color: var(--ao-text) !important;
-      background: var(--ao-surface) !important;
-      border: 1px solid var(--ao-border) !important;
-    }
-
-    /*
-      Navigation / header.
-    */
-    header,
-    nav {
-      color: var(--ao-text);
-    }
-
-    /*
-      Product images should never disappear behind a white layer.
-    */
-    img {
-      max-width: 100%;
-    }
-
-    /*
-      Accessibility: visible focus.
-    */
-    button:focus-visible,
-    a:focus-visible,
-    input:focus-visible,
-    textarea:focus-visible,
-    select:focus-visible {
-      outline: 3px solid color-mix(
-        in srgb,
-        var(--ao-brand) 45%,
-        transparent
-      ) !important;
-      outline-offset: 2px;
-    }
-
-    /*
-      Dark mode surfaces.
-    */
-    html[data-ao-theme="dark"] body,
-    html[data-ao-theme="dark"] #root {
-      background: var(--ao-bg) !important;
-      color: var(--ao-text) !important;
-    }
-
-    html[data-ao-theme="dark"] input,
-    html[data-ao-theme="dark"] textarea,
-    html[data-ao-theme="dark"] select {
-      background: var(--ao-surface) !important;
-      color: var(--ao-text) !important;
-    }
-
-    /*
-      Premium browser scrollbar.
-    */
-    ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--ao-bg);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--ao-border);
-      border-radius: 999px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--ao-brand);
-    }
-  `;
-}
-
-function isWhite(rgb: string) {
-  const match = rgb.match(/\d+/g);
-  if (!match || match.length < 3) return false;
-
-  const [r, g, b] = match.slice(0, 3).map(Number);
-
-  return r >= 245 && g >= 245 && b >= 245;
-}
-
-function isLight(rgb: string) {
-  const match = rgb.match(/\d+/g);
-  if (!match || match.length < 3) return false;
-
-  const [r, g, b] = match.slice(0, 3).map(Number);
-
-  return r >= 225 && g >= 225 && b >= 225;
-}
-
-function findVisualBackground(el: HTMLElement) {
-  let current: HTMLElement | null = el;
-
-  while (current) {
-    const style = window.getComputedStyle(current);
-
-    if (
-      style.backgroundImage &&
-      style.backgroundImage !== 'none'
-    ) {
-      return {
-        hasImage: true,
-        color: style.backgroundColor,
-      };
-    }
-
-    if (
-      style.backgroundColor &&
-      style.backgroundColor !== 'transparent' &&
-      style.backgroundColor !== 'rgba(0, 0, 0, 0)'
-    ) {
-      return {
-        hasImage: false,
-        color: style.backgroundColor,
-      };
-    }
-
-    current = current.parentElement;
-  }
-
-  return {
-    hasImage: false,
-    color: window.getComputedStyle(document.body).backgroundColor,
-  };
-}
-
-function repairWhiteOnWhite() {
-  if (typeof window === 'undefined') return;
+export function setPremiumTheme(theme: PremiumTheme) {
+  if (typeof document === 'undefined') return;
 
   const root = document.documentElement;
+  const colors = theme === 'dark' ? DARK : LIGHT;
 
-  if (root.dataset.aoTheme !== 'light') return;
+  root.dataset.theme = theme;
+  root.style.colorScheme = theme;
 
-  const elements = document.querySelectorAll<HTMLElement>(
-    'p,span,h1,h2,h3,h4,h5,h6,label,a,button,strong,em,small'
-  );
+  const vars: Record<string, string> = {
+    '--app-bg': colors.background,
+    '--app-surface': colors.surface,
+    '--app-surface-2': colors.surface2,
+    '--app-text': colors.text,
+    '--app-muted': colors.muted,
+    '--app-border': colors.border,
+    '--app-brand': colors.brand,
+    '--app-brand-2': colors.brand2,
+    '--app-accent': colors.accent,
+  };
 
-  elements.forEach((el) => {
-    if (!el.textContent?.trim()) return;
+  Object.entries(vars).forEach(([key, value]) => {
+    root.style.setProperty(key, value);
+  });
 
-    const style = window.getComputedStyle(el);
-    const color = style.color;
+  document.body.style.backgroundColor = colors.background;
+  document.body.style.color = colors.text;
 
-    if (!isWhite(color)) return;
+  root.querySelectorAll<HTMLElement>(
+    '[data-theme-text="auto"]'
+  ).forEach((el) => {
+    el.style.color = colors.text;
+  });
 
-    /*
-      Never change white text sitting on an image/gradient.
-    */
-    const background = findVisualBackground(el);
+  root.querySelectorAll<HTMLElement>(
+    '[data-theme-surface="auto"]'
+  ).forEach((el) => {
+    el.style.backgroundColor = colors.surface;
+    el.style.borderColor = colors.border;
+  });
 
-    if (background.hasImage) return;
-
-    /*
-      White text on a light/white background is unreadable.
-    */
-    if (isLight(background.color)) {
-      el.style.setProperty(
-        'color',
-        LIGHT.text,
-        'important'
-      );
-      el.dataset.aoVisibilityFixed = 'true';
-    }
+  root.querySelectorAll<HTMLElement>(
+    '[data-theme-muted="auto"]'
+  ).forEach((el) => {
+    el.style.color = colors.muted;
   });
 }
 
-function installStyle() {
-  if (typeof document === 'undefined') return;
-
-  let style = document.getElementById(
-    STYLE_ID
-  ) as HTMLStyleElement | null;
-
-  if (!style) {
-    style = document.createElement('style');
-    style.id = STYLE_ID;
-    document.head.appendChild(style);
-  }
-
-  style.textContent = css();
-}
-
-function apply(theme: ThemeName) {
-  if (typeof document === 'undefined') return;
-
-  installStyle();
-
-  const root = document.documentElement;
-
-  root.dataset.aoTheme = theme;
-  root.dataset.theme = theme;
-
-  root.classList.toggle('dark', theme === 'dark');
-  root.classList.toggle('light', theme === 'light');
-
-  document.body?.classList.toggle(
-    'dark',
-    theme === 'dark'
-  );
-
-  document.body?.classList.toggle(
-    'light',
-    theme === 'light'
-  );
-
-  document.body?.setAttribute(
-    'data-ao-theme',
-    theme
-  );
-
-  try {
-    localStorage.setItem(
-      'alex-obi-theme',
-      theme
-    );
-  } catch {}
-
-  if (theme === 'light') {
-    requestAnimationFrame(() => {
-      repairWhiteOnWhite();
-    });
-  }
-}
-
-export function getPremiumTheme(): ThemeName {
-  if (typeof window === 'undefined') {
-    return 'light';
-  }
-
-  try {
-    const saved = localStorage.getItem(
-      'alex-obi-theme'
-    );
-
-    if (saved === 'dark' || saved === 'light') {
-      return saved;
-    }
-  } catch {}
-
-  return 'light';
-}
-
-export function setPremiumTheme(
-  theme: ThemeName
-) {
-  apply(theme);
-
-  if (
-    typeof window !== 'undefined' &&
-    (window as any).__ALEX_OBI_THEME_CHANGE
-  ) {
-    (window as any).__ALEX_OBI_THEME_CHANGE(theme);
-  }
-}
-
-export function togglePremiumTheme() {
-  const next =
-    getPremiumTheme() === 'dark'
-      ? 'light'
-      : 'dark';
-
-  setPremiumTheme(next);
-
-  return next;
+export function getPremiumTheme(): PremiumTheme {
+  return getTheme();
 }
 
 export function installPremiumWebTheme() {
-  if (
-    typeof window === 'undefined' ||
-    typeof document === 'undefined'
-  ) {
-    return;
+  if (typeof document === 'undefined') return;
+
+  const root = document.documentElement;
+
+  if (!root.dataset.theme) {
+    const stored = window.localStorage.getItem('@alex_obi_theme');
+    const preferred =
+      stored === 'dark' || stored === 'light'
+        ? stored
+        : window.matchMedia?.('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+
+    root.dataset.theme = preferred;
   }
 
-  installStyle();
+  const styleId = 'alex-obi-premium-theme';
 
-  const saved = getPremiumTheme();
+  if (!document.getElementById(styleId)) {
+    const style = document.createElement('style');
+    style.id = styleId;
 
-  apply(saved);
+    style.textContent = `
+      :root {
+        --app-bg: #FAF8FF;
+        --app-surface: #FFFFFF;
+        --app-surface-2: #F4F0FF;
+        --app-text: #171122;
+        --app-muted: #6D647D;
+        --app-border: #E6DFF0;
+        --app-brand: #7C3AED;
+        --app-brand-2: #A855F7;
+        --app-accent: #EC4899;
+      }
 
-  /*
-    Allow React Native / ShopContext to notify this engine.
-  */
-  (window as any).__ALEX_OBI_APPLY_THEME =
-    (theme: ThemeName) => {
-      apply(theme);
-    };
+      html[data-theme="dark"] {
+        --app-bg: #0B0714;
+        --app-surface: #151021;
+        --app-surface-2: #211634;
+        --app-text: #F8F5FF;
+        --app-muted: #B9ADC9;
+        --app-border: #342542;
+        --app-brand: #A78BFA;
+        --app-brand-2: #C084FC;
+        --app-accent: #F472B6;
+      }
 
-  /*
-    Make theme changes work even if an old toggle button
-    still exists and has no working onPress.
-  */
-  if (!(window as any).__ALEX_OBI_THEME_LISTENER) {
-    const listener = (event: MouseEvent) => {
-      const target = event.target as HTMLElement | null;
+      html, body, #root {
+        background: var(--app-bg) !important;
+        color: var(--app-text) !important;
+      }
 
-      if (!target) return;
+      body {
+        margin: 0;
+      }
 
-      const button =
-        target.closest(
-          'button,[role="button"],a'
-        ) as HTMLElement | null;
+      input, textarea, select {
+        background: var(--app-surface) !important;
+        color: var(--app-text) !important;
+        border-color: var(--app-border) !important;
+      }
 
-      if (!button) return;
+      input::placeholder,
+      textarea::placeholder {
+        color: var(--app-muted) !important;
+      }
 
-      const label = (
-        button.getAttribute('aria-label') ||
-        button.getAttribute('title') ||
-        button.textContent ||
-        ''
-      ).toLowerCase();
+      [data-theme="dark"] * {
+        border-color: var(--app-border);
+      }
 
-      const looksLikeThemeButton =
-        button.hasAttribute('data-theme-toggle') ||
-        button.classList.contains('theme-toggle') ||
-        button.classList.contains('ao-theme-toggle') ||
-        label.includes('dark mode') ||
-        label.includes('light mode') ||
-        label.includes('toggle theme') ||
-        label.includes('theme') ||
-        label.includes('night mode') ||
-        label.includes('appearance');
+      [data-theme="dark"] a,
+      [data-theme="dark"] p,
+      [data-theme="dark"] span,
+      [data-theme="dark"] label,
+      [data-theme="dark"] h1,
+      [data-theme="dark"] h2,
+      [data-theme="dark"] h3,
+      [data-theme="dark"] h4,
+      [data-theme="dark"] h5,
+      [data-theme="dark"] h6 {
+        color: inherit;
+      }
 
-      if (!looksLikeThemeButton) return;
+      .alex-obi-brand {
+        color: var(--app-brand) !important;
+        background: linear-gradient(
+          90deg,
+          var(--app-brand),
+          var(--app-brand-2),
+          var(--app-accent)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-      event.preventDefault();
-      event.stopPropagation();
+      .alex-obi-surface {
+        background: var(--app-surface) !important;
+        color: var(--app-text) !important;
+        border-color: var(--app-border) !important;
+      }
 
-      togglePremiumTheme();
-    };
+      .alex-obi-muted {
+        color: var(--app-muted) !important;
+      }
+    `;
 
-    document.addEventListener(
-      'click',
-      listener,
-      true
-    );
-
-    (window as any).__ALEX_OBI_THEME_LISTENER =
-      listener;
+    document.head.appendChild(style);
   }
 
-  /*
-    Continuously repair newly-rendered React Native Web
-    nodes without touching text that is intentionally
-    white on a hero/image/gradient.
-  */
-  if (!(window as any).__ALEX_OBI_VISIBILITY_OBSERVER) {
-    const observer =
-      new MutationObserver(() => {
-        if (
-          document.documentElement.dataset.aoTheme ===
-          'light'
-        ) {
-          repairWhiteOnWhite();
-        }
-      });
-
-    observer.observe(document.body, {
-      subtree: true,
-      childList: true,
-      attributes: true,
-      attributeFilter: [
-        'style',
-        'class',
-      ],
-    });
-
-    (window as any).__ALEX_OBI_VISIBILITY_OBSERVER =
-      observer;
-  }
-
-  requestAnimationFrame(() => {
-    repairWhiteOnWhite();
-  });
-}
-
-
-// Backward-compatible API used by the existing app layout.
-export function setPremiumWebTheme(theme: 'light' | 'dark') {
-  setPremiumTheme(theme);
+  setPremiumTheme(getPremiumTheme());
 }

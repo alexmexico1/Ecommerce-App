@@ -9,8 +9,23 @@ import React, {
 } from 'react';
 
 import { products as catalogProducts } from '../data/products';
+const THEME_STORAGE_KEY = '@alex_obi_theme';
 
-const THEME_STORAGE_KEY = 'alex-obi-theme';
+const ALEX_THEME_KEY = 'alex-obi-theme';
+
+function readTheme(): ThemeMode {
+  if (typeof window === 'undefined') return 'light';
+
+  try {
+    return window.localStorage.getItem(ALEX_THEME_KEY) === 'dark'
+      ? 'dark'
+      : 'light';
+  } catch {
+    return 'light';
+  }
+}
+
+
 
 function getStoredTheme(): ThemeMode {
   if (typeof window === 'undefined') return 'light';
@@ -117,7 +132,7 @@ export type ShopContextValue = {
 const PRODUCTS: Product[] = catalogProducts as Product[];
 
 const initialState: ShopState = {
-  theme: getStoredTheme(),
+  theme: readTheme(),
   wishlist: [],
   products: PRODUCTS,
   cart: [],
@@ -384,27 +399,29 @@ export function ShopProvider({
       },
 
       toggleTheme: () => {
-        const nextTheme: ThemeMode =
-          state.theme === 'dark' ? 'light' : 'dark';
+        const next: ThemeMode =
+          state.theme === 'dark'
+            ? 'light'
+            : 'dark';
 
         dispatch({
           type: 'SET_THEME',
-          payload: nextTheme,
+          payload: next,
         });
 
         if (typeof window !== 'undefined') {
           try {
             window.localStorage.setItem(
-              THEME_STORAGE_KEY,
-              nextTheme
+              ALEX_THEME_KEY,
+              next
             );
           } catch {}
 
-          const applyTheme =
+          const browserTheme =
             (window as any).__ALEX_OBI_APPLY_THEME;
 
-          if (typeof applyTheme === 'function') {
-            applyTheme(nextTheme);
+          if (typeof browserTheme === 'function') {
+            browserTheme(next);
           }
         }
       },

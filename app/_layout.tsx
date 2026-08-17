@@ -1,34 +1,32 @@
 import React, { useEffect } from 'react';
-// @ts-nocheck
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { ShopProvider, useShop } from '../context/ShopContext';
-import { installPremiumWebTheme, setPremiumTheme } from '../lib/premiumWebTheme';
+import { useShop } from '../context/ShopContext';
+import { installPremiumWebTheme } from '../lib/premiumWebTheme';
+
 function AppShell() {
   const { isDark } = useShop();
+
+  useEffect(() => {
+    installPremiumWebTheme();
+  }, []);
 
   return (
     <>
       <StatusBar style={isDark ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown:false }}>
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="product/[id]" />
-      </Stack>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          animation: 'fade',
+          contentStyle: {
+            backgroundColor: isDark ? '#0B0714' : '#FAF8FF',
+          },
+        }}
+      />
     </>
   );
 }
 
 export default function RootLayout() {
-  const shop = useShop();
-  const isDark = Boolean((shop as any).isDark ?? ((shop as any).theme === 'dark'));
-
-  useEffect(() => {
-    installPremiumWebTheme();
-    setPremiumTheme(isDark ? 'dark' : 'light');
-  }, [isDark]);
-return (
-    <ShopProvider>
-      <AppShell />
-    </ShopProvider>
-  );
+  return <AppShell />;
 }
