@@ -202,3 +202,19 @@ export function installPremiumWebTheme() {
 export function setPremiumWebTheme(theme: PremiumTheme) {
   return setPremiumTheme(theme);
 }
+
+
+export function installAlexObiVisibilityCSS() {
+  if (typeof document === 'undefined') return;
+
+  const id = 'alex-obi-visibility-css';
+
+  if (document.getElementById(id)) return;
+
+  const link = document.createElement('link');
+  link.id = id;
+  link.rel = 'stylesheet';
+  link.href = '/alex-obi-theme.css';
+
+  document.head.appendChild(link);
+}
