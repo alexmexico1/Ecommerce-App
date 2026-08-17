@@ -405,7 +405,7 @@ export default function HomeScreen() {
 
         <View style={styles.promoGrid}>
           {[
-            ['MEGA SALE','Up to 50% OFF','On selected items','#7C3AED','#EC4899'],
+            ['MEGA SALE','Up to 50% OFF','On selected items','#8B5CF6','#EC4899'],
             ['NEW ARRIVALS','Fresh styles','Just dropped','#EC4899','#F97316'],
             ['KIDS COLLECTION','Stylish & Fun','For little ones','#2563EB','#8B5CF6'],
             ['LAPTOPS & MORE','Power up','Your productivity','#16A34A','#84CC16'],
@@ -760,7 +760,7 @@ const styles = StyleSheet.create({
   },
   bottomEyebrow:{color:'#A5B4FC',fontSize:9,fontWeight:'900',letterSpacing:1.5},
   bottomTitle:{color:'#FFFFFF',fontSize:24,fontWeight:'900',marginTop:5},
-  bottomCopy:{color:'#A7AEC1',fontSize:12,lineHeight:18,marginTop:5,maxWidth:600},
+  bottomCopy:{color:'#D9D6FF',fontSize:12,lineHeight:18,marginTop:5,maxWidth:600},
   bottomButton:{
     borderRadius:13,
     paddingHorizontal:18,
