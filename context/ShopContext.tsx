@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useMemo, useReducer, type 
 import { products as catalogProducts } from '../data/products';
 
 const THEME_STORAGE_KEY = 'alex-obi-theme';
+
 const ALEX_THEME_KEY = 'alex-obi-theme';
 
 function readTheme(): ThemeMode {

@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ShopProvider, useShop } from '../context/ShopContext';
+import '../lib/alexObiWeb.css';
 
 function AppShell() {
-  const shop = useShop();
-  const isDark = Boolean((shop as any)?.isDark);
+  const { theme } = useShop();
+  const dark = theme === 'dark';
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    document.documentElement.setAttribute(
+      'data-alex-obi-theme',
+      dark ? 'dark' : 'light'
+    );
+
+    document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+  }, [dark]);
 
   return (
     <>
-      <StatusBar style={isDark ? 'light' : 'dark'} />
+      <StatusBar style={dark ? 'light' : 'dark'} />
       <Stack
         screenOptions={{
           headerShown: false,
-          animation: 'fade',
           contentStyle: {
-            backgroundColor: isDark ? '#09070F' : '#FAF9FC',
+            backgroundColor: dark ? '#09070F' : '#F7F7FB',
           },
         }}
       />

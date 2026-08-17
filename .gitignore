@@ -43,3 +43,9 @@ app-example
 /android
 .env.local
 .env.*.local
+
+# Local repair backups
+.alex-obi-backup-*/
+.alex-obi-backups/
+.repair-backups/
+backup-*/

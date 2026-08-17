@@ -1,0 +1,110 @@
+:root {
+  --ao-bg: #F7F7FB;
+  --ao-surface: #FFFFFF;
+  --ao-surface-2: #F1F0F8;
+  --ao-text: #171322;
+  --ao-muted: #5D586A;
+  --ao-soft: #858091;
+  --ao-border: #E6E3EF;
+  --ao-brand: #7C3AED;
+  --ao-brand-strong: #5B21B6;
+  --ao-brand-soft: #EDE9FE;
+  --ao-accent: #EC4899;
+}
+
+html[data-alex-obi-theme="dark"] {
+  --ao-bg: #09070F;
+  --ao-surface: #12101A;
+  --ao-surface-2: #1A1725;
+  --ao-text: #F8F7FC;
+  --ao-muted: #C4BFCE;
+  --ao-soft: #918A9F;
+  --ao-border: #2C2639;
+  --ao-brand: #A78BFA;
+  --ao-brand-strong: #8B5CF6;
+  --ao-brand-soft: #2A1C46;
+  --ao-accent: #F472B6;
+}
+
+html,
+body,
+#__next,
+#root {
+  background: var(--ao-bg) !important;
+  color: var(--ao-text);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  transition:
+    background-color .25s ease,
+    color .25s ease;
+}
+
+/* Premium brand treatment */
+.ao-brand,
+[class*="brand"],
+[class*="Brand"] {
+  color: var(--ao-brand) !important;
+}
+
+/* Never allow common white-on-white text */
+html[data-alex-obi-theme="light"] [style*="color: rgb(255, 255, 255)"],
+html[data-alex-obi-theme="light"] [style*="color: #fff"],
+html[data-alex-obi-theme="light"] [style*="color:#fff"],
+html[data-alex-obi-theme="light"] [style*="color: white"] {
+  color: var(--ao-text) !important;
+}
+
+/* Common content text */
+html[data-alex-obi-theme="light"] p,
+html[data-alex-obi-theme="light"] span,
+html[data-alex-obi-theme="light"] label {
+  --ao-safe-text: var(--ao-text);
+}
+
+/* Premium cards */
+.ao-card {
+  background: var(--ao-surface) !important;
+  border: 1px solid var(--ao-border) !important;
+  color: var(--ao-text) !important;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(31, 20, 60, .08);
+}
+
+.ao-gradient {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(124,58,237,.30), transparent 38%),
+    radial-gradient(circle at 90% 20%, rgba(236,72,153,.24), transparent 35%),
+    linear-gradient(135deg, #24103F 0%, #5B21B6 52%, #7C3AED 100%) !important;
+  color: #FFFFFF !important;
+}
+
+/* Buttons */
+.ao-primary {
+  background: linear-gradient(135deg, #7C3AED, #EC4899) !important;
+  color: #FFFFFF !important;
+  border: 0 !important;
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  color: var(--ao-text) !important;
+  background: var(--ao-surface) !important;
+  border-color: var(--ao-border) !important;
+}
+
+/* Images and cards */
+img {
+  max-width: 100%;
+}
+
+/* Mobile-friendly web layout */
+@media (max-width: 700px) {
+  body {
+    overflow-x: hidden;
+  }
+}
