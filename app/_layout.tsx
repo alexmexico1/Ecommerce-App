@@ -3,6 +3,7 @@ import React from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ShopProvider, useShop } from '../context/ShopContext';
+import { installPremiumWebTheme } from '../lib/premiumWebTheme';
 
 function AppShell() {
   const { isDark } = useShop();
@@ -19,6 +20,10 @@ function AppShell() {
 }
 
 export default function RootLayout() {
+  useEffect(() => {
+    return installPremiumWebTheme();
+  }, []);
+
   return (
     <ShopProvider>
       <AppShell />

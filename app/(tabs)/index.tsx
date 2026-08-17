@@ -169,9 +169,17 @@ function ProductCard({
 }
 
 export default function HomeScreen() {
+
   const { width } = useWindowDimensions();
-  const { products, cartCount, wishlist, toggleWishlist, theme, isDark, toggleTheme } =
-    useShop() as ShopState;
+  const {
+    products,
+    cartCount,
+    wishlist,
+    toggleWishlist,
+    theme,
+    isDark,
+    toggleTheme,
+  } = useShop() as ShopState;
 
   const [slide, setSlide] = useState(0);
 
@@ -230,9 +238,9 @@ export default function HomeScreen() {
           </View>
 
           <View style={styles.headerActions}>
-            <Pressable
+            <Pressable testID="theme-toggle"
               style={[styles.headerIcon,{backgroundColor:theme.surface2}]}
-              onPress={() => router.push('/(tabs)/explore')}
+              onPress={() => toggleTheme()}
             >
               <Ionicons name="search-outline" size={20} color={theme.text} />
             </Pressable>
@@ -526,7 +534,7 @@ const styles = StyleSheet.create({
     width:16,height:16,borderRadius:8,
     alignItems:'center',justifyContent:'center',
   },
-  notificationText:{color:'#FFFFFF',fontSize:8,fontWeight:'900'},
+  notificationText:{color:'#7C3AED',fontSize:8,fontWeight:'900'},
   cartHeader:{
     width:46,height:46,borderRadius:14,
     alignItems:'center',justifyContent:'center',
@@ -669,7 +677,7 @@ const styles = StyleSheet.create({
     flexWrap:'wrap',
     gap:12,
   },
-  promo:{
+  promo:{backgroundColor: '#111827',
     flex:1,
     minWidth:230,
     minHeight:145,
@@ -750,7 +758,7 @@ const styles = StyleSheet.create({
   priceRow:{flexDirection:'row',alignItems:'center',gap:7,marginTop:5},
   price:{fontSize:16,fontWeight:'900'},
   oldPrice:{fontSize:10,textDecorationLine:'line-through'},
-  bottomBanner:{
+  bottomBanner:{backgroundColor: '#111827',
     marginHorizontal:18,
     borderRadius:24,
     padding:24,

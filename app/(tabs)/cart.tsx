@@ -1,6 +1,5 @@
 // @ts-nocheck
 import React from 'react';
-import { startStripeCheckout } from '../../lib/stripeCheckout';
 import {
   Image,
   Pressable,
