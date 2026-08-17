@@ -52,7 +52,7 @@ export default function TabLayout() {
           tabBarBadge:cartCount || undefined,
           tabBarBadgeStyle:{
             backgroundColor:theme.danger,
-            color:'#FFFFFF',
+            color:'#171321',
             fontSize:9,
           },
           tabBarIcon:({ color, size }) => (

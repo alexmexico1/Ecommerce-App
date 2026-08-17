@@ -23,7 +23,9 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "backgroundColor": "#F7F5FC",
+      "themeColor": "#6D28D9"
     },
     "plugins": [
       "expo-router",
@@ -50,6 +52,8 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "backgroundColor": "#F7F5FC",
+    "primaryColor": "#6D28D9"
   }
 }

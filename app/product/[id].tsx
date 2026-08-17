@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
   },
-  countText:{color:'#FFFFFF',fontSize:9,fontWeight:'900'},
+  countText:{color:'#171321',fontSize:9,fontWeight:'900'},
   content:{padding:24},
   category:{
     fontSize:10,
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     gap:10,
     marginTop:25,
   },
-  addText:{color:'#FFFFFF',fontSize:15,fontWeight:'900'},
+  addText:{color:'#171321',fontSize:15,fontWeight:'900'},
   notFound:{flex:1,alignItems:'center',justifyContent:'center'},
   notFoundTitle:{fontSize:24,fontWeight:'900'},
   backText:{marginTop:15,fontWeight:'900'},

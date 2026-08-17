@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     gap:9,
   },
-  checkoutText:{color:'#FFFFFF',fontSize:14,fontWeight:'900'},
+  checkoutText:{color:'#171321',fontSize:14,fontWeight:'900'},
   secureRow:{
     marginTop:12,
     flexDirection:'row',
@@ -283,5 +283,5 @@ const styles = StyleSheet.create({
     alignItems:'center',
     gap:9,
   },
-  shopButtonText:{color:'#FFFFFF',fontWeight:'900'},
+  shopButtonText:{color:'#171321',fontWeight:'900'},
 });

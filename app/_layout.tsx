@@ -1,8 +1,9 @@
+import React, { useEffect } from 'react';
 // @ts-nocheck
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ShopProvider, useShop } from '../context/ShopContext';
-import { installPremiumWebTheme, setPremiumWebTheme } from '../lib/premiumWebTheme';
+import { installPremiumWebTheme, setPremiumTheme } from '../lib/premiumWebTheme';
 function AppShell() {
   const { isDark } = useShop();
 
@@ -23,7 +24,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     installPremiumWebTheme();
-    setPremiumWebTheme(isDark ? 'dark' : 'light');
+    setPremiumTheme(isDark ? 'dark' : 'light');
   }, [isDark]);
 return (
     <ShopProvider>

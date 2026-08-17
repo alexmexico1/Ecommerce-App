@@ -10,6 +10,24 @@ import React, {
 
 import { products as catalogProducts } from '../data/products';
 
+const THEME_STORAGE_KEY = 'alex-obi-theme';
+
+function getStoredTheme(): ThemeMode {
+  if (typeof window === 'undefined') return 'light';
+
+  try {
+    const value = window.localStorage.getItem(
+      THEME_STORAGE_KEY
+    );
+
+    return value === 'dark' ? 'dark' : 'light';
+  } catch {
+    return 'light';
+  }
+}
+
+
+
 export type ThemeMode = 'light' | 'dark';
 
 export type Product = {
@@ -99,7 +117,7 @@ export type ShopContextValue = {
 const PRODUCTS: Product[] = catalogProducts as Product[];
 
 const initialState: ShopState = {
-  theme: 'light',
+  theme: getStoredTheme(),
   wishlist: [],
   products: PRODUCTS,
   cart: [],
@@ -366,9 +384,29 @@ export function ShopProvider({
       },
 
       toggleTheme: () => {
+        const nextTheme: ThemeMode =
+          state.theme === 'dark' ? 'light' : 'dark';
+
         dispatch({
-          type: 'TOGGLE_THEME',
+          type: 'SET_THEME',
+          payload: nextTheme,
         });
+
+        if (typeof window !== 'undefined') {
+          try {
+            window.localStorage.setItem(
+              THEME_STORAGE_KEY,
+              nextTheme
+            );
+          } catch {}
+
+          const applyTheme =
+            (window as any).__ALEX_OBI_APPLY_THEME;
+
+          if (typeof applyTheme === 'function') {
+            applyTheme(nextTheme);
+          }
+        }
       },
 
       setTheme: (theme: ThemeMode) => {

@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     paddingVertical:5,
     borderRadius:7,
   },
-  badgeText:{color:'#FFFFFF',fontSize:8,fontWeight:'900'},
+  badgeText:{color:'#171321',fontSize:8,fontWeight:'900'},
   heart:{
     position:'absolute',
     right:8,
