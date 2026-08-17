@@ -1,203 +1,180 @@
+const STYLE_ID = 'alex-obi-premium-theme';
 
 export function installPremiumWebTheme() {
   if (typeof document === 'undefined') return () => {};
 
-  if (document.getElementById('alex-obi-premium-theme')) {
-    return () => {};
-  }
+  const existing = document.getElementById(STYLE_ID);
+  if (existing) return () => {};
 
   const style = document.createElement('style');
-
-  style.id = 'alex-obi-premium-theme';
+  style.id = STYLE_ID;
 
   style.textContent = `
     :root {
-      --alex-brand: #7c3aed;
-      --alex-pink: #ec4899;
-      --alex-blue: #2563eb;
-      --alex-bg: #f7f7fb;
+      --alex-brand: #6d28d9;
+      --alex-brand-2: #9333ea;
+      --alex-accent: #f59e0b;
+      --alex-bg: #ffffff;
+      --alex-surface: #ffffff;
+      --alex-surface-2: #f8fafc;
+      --alex-text: #111827;
+      --alex-text-2: #475569;
+      --alex-border: #e5e7eb;
+      --alex-shadow: 0 18px 50px rgba(15,23,42,.08);
     }
 
-    html,
-    body,
-    #root {
-      min-height: 100%;
+    html[data-theme="dark"] {
+      --alex-bg: #0b0713;
+      --alex-surface: #130d20;
+      --alex-surface-2: #1b122b;
+      --alex-text: #f8fafc;
+      --alex-text-2: #cbd5e1;
+      --alex-border: #312044;
+      --alex-shadow: 0 18px 50px rgba(0,0,0,.35);
+    }
+
+    html, body {
+      background: var(--alex-bg) !important;
+      color: var(--alex-text) !important;
     }
 
     body {
-      margin: 0;
-      background:
-        radial-gradient(
-          circle at 15% 0%,
-          rgba(124,58,237,.08),
-          transparent 30%
-        ),
-        #f7f7fb !important;
       transition:
-        background .3s ease,
-        color .3s ease;
+        background-color .25s ease,
+        color .25s ease;
     }
 
-    [data-alex-theme="dark"] body {
-      background:
-        radial-gradient(
-          circle at 20% 0%,
-          rgba(124,58,237,.18),
-          transparent 35%
-        ),
-        #080811 !important;
-      color: #f8fafc !important;
+    body * {
+      transition:
+        background-color .2s ease,
+        color .2s ease,
+        border-color .2s ease;
     }
 
-    [data-alex-theme="dark"] input {
-      background: #151521 !important;
-      color: #ffffff !important;
-      border-color: #303044 !important;
+    a, button {
+      color: inherit;
     }
 
-    [data-alex-theme="dark"] button {
-      color: #ffffff;
+    /* BRAND */
+    [data-brand],
+    .brand,
+    .logo,
+    [class*="brand"],
+    [class*="logo"] {
+      color: var(--alex-brand) !important;
     }
 
-    [data-alex-brand] {
-      color: #7c3aed !important;
+    /* Prevent white text on light surfaces */
+    html:not([data-theme="dark"]) h1,
+    html:not([data-theme="dark"]) h2,
+    html:not([data-theme="dark"]) h3,
+    html:not([data-theme="dark"]) h4,
+    html:not([data-theme="dark"]) p,
+    html:not([data-theme="dark"]) span,
+    html:not([data-theme="dark"]) label {
+      text-shadow: none;
     }
 
-    [data-alex-promo] {
+    /* Generic white text becomes readable unless it is over a dark hero */
+    html:not([data-theme="dark"]) [style*="color: white"],
+    html:not([data-theme="dark"]) [style*="color: #fff"],
+    html:not([data-theme="dark"]) [style*="color:#fff"] {
+      color: var(--alex-text) !important;
+    }
+
+    .alex-theme-toggle {
+      border: 1px solid var(--alex-border);
+      background: var(--alex-surface) !important;
+      color: var(--alex-text) !important;
+      border-radius: 999px;
+      min-width: 44px;
+      min-height: 44px;
+      cursor: pointer;
+      box-shadow: var(--alex-shadow);
+    }
+
+    .alex-theme-toggle:hover {
+      border-color: var(--alex-brand);
+      color: var(--alex-brand) !important;
+      transform: translateY(-1px);
+    }
+
+    .alex-premium-surface {
+      background: var(--alex-surface) !important;
+      color: var(--alex-text) !important;
+      border-color: var(--alex-border) !important;
+    }
+
+    .alex-premium-promo {
       background:
         linear-gradient(
           135deg,
-          #111827 0%,
-          #312e81 45%,
-          #7c3aed 100%
+          var(--alex-brand),
+          var(--alex-brand-2)
         ) !important;
-      color: #ffffff !important;
-      border: none !important;
+      color: #fff !important;
+      border-radius: 24px;
     }
 
-    [data-alex-promo] * {
-      color: #ffffff !important;
+    .alex-premium-promo * {
+      color: #fff !important;
     }
 
-    [data-alex-theme="dark"] [data-alex-promo] {
-      background:
-        linear-gradient(
-          135deg,
-          #0f172a,
-          #312e81,
-          #7c3aed
-        ) !important;
+    footer {
+      background: var(--alex-surface) !important;
+      color: var(--alex-text) !important;
+      border-top: 1px solid var(--alex-border) !important;
+    }
+
+    footer * {
+      color: var(--alex-text-2);
+    }
+
+    footer a:hover {
+      color: var(--alex-brand) !important;
+    }
+
+    input,
+    textarea,
+    select {
+      background: var(--alex-surface) !important;
+      color: var(--alex-text) !important;
+      border-color: var(--alex-border) !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--alex-text-2) !important;
+      opacity: .75;
     }
   `;
 
   document.head.appendChild(style);
 
-  const apply = () => {
-    const root = document.documentElement;
+  const saved = localStorage.getItem('alex-obi-theme');
+  const theme =
+    saved === 'dark' || saved === 'light'
+      ? saved
+      : window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
 
-    let theme = localStorage.getItem('alex-obi-theme');
-
-    if (!theme) {
-      theme = 'light';
-      localStorage.setItem('alex-obi-theme', theme);
-    }
-
-    root.setAttribute(
-      'data-alex-theme',
-      theme === 'dark' ? 'dark' : 'light'
-    );
-
-    document.querySelectorAll('*').forEach((element) => {
-      const text = (element.textContent || '').trim();
-
-      if (
-        text === 'ALEX OBI' ||
-        text.startsWith('ALEX OBI PREMIUM')
-      ) {
-        element.setAttribute(
-          'data-alex-brand',
-          'true'
-        );
-      }
-
-      if (
-        text.includes(
-          'Get 15% off your first order.'
-        )
-      ) {
-        const parent =
-          element.parentElement?.parentElement ||
-          element.parentElement;
-
-        if (parent) {
-          parent.setAttribute(
-            'data-alex-promo',
-            'true'
-          );
-        }
-      }
-    });
-  };
-
-  apply();
-
-  const observer =
-    new MutationObserver(apply);
-
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-
-  const toggleTheme = () => {
-    const current =
-      document.documentElement.getAttribute(
-        'data-alex-theme'
-      );
-
-    const next =
-      current === 'dark'
-        ? 'light'
-        : 'dark';
-
-    localStorage.setItem(
-      'alex-obi-theme',
-      next
-    );
-
-    document.documentElement.setAttribute(
-      'data-alex-theme',
-      next
-    );
-  };
-
-  const handleClick = (event: Event) => {
-    const target =
-      event.target as HTMLElement | null;
-
-    const button =
-      target?.closest?.(
-        '[data-testid="theme-toggle"]'
-      );
-
-    if (button) {
-      toggleTheme();
-    }
-  };
-
-  document.addEventListener(
-    'click',
-    handleClick
-  );
+  document.documentElement.dataset.theme = theme;
+  document.documentElement.style.colorScheme = theme;
 
   return () => {
-    observer.disconnect();
-
-    document.removeEventListener(
-      'click',
-      handleClick
-    );
-
     style.remove();
   };
+}
+
+export function setPremiumWebTheme(theme: 'light' | 'dark') {
+  if (typeof document === 'undefined') return;
+
+  document.documentElement.dataset.theme = theme;
+  document.documentElement.style.colorScheme = theme;
+
+  try {
+    localStorage.setItem('alex-obi-theme', theme);
+  } catch {}
 }
