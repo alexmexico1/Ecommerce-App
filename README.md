@@ -1,50 +1,47 @@
-# Welcome to your Expo app 👋
+# ALEX OBI — Premium Ecommerce Platform
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern, responsive ecommerce application built with React Native / Expo, Expo Router, TypeScript and Stripe integration.
 
-## Get started
+## 🚀 Live Demo
 
-1. Install dependencies
+### 👉 [OPEN ALEX OBI LIVE](https://ecommerce-app-pied-zeta.vercel.app)
 
-   ```bash
-   npm install
-   ```
+## 💻 GitHub
 
-2. Start the app
+[View the source code](https://github.com/alexmexico1/Ecommerce-App)
 
-   ```bash
-   npx expo start
-   ```
+## ✨ Features
 
-In the output, you'll find options to open the app in a
+- Premium modern ecommerce UI
+- Responsive web experience
+- Light / dark mode
+- Persistent theme preference
+- Product browsing
+- Product detail pages
+- Shopping cart
+- Checkout flow
+- Stripe integration
+- Responsive navigation
+- Modern violet / magenta brand system
+- TypeScript
+- Expo Router
+- Production Vercel deployment
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🛠️ Tech Stack
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- React Native
+- Expo
+- Expo Router
+- TypeScript
+- Stripe
+- Vercel
+- GitHub
 
-## Get a fresh project
+## 📱 Project
 
-When you're ready, run:
+ALEX OBI is designed as a production-style ecommerce experience rather than a basic tutorial project, with emphasis on polished UI, responsive layouts, accessibility, theming and real-world ecommerce functionality.
 
-```bash
-npm run reset-project
-```
+## 👨‍💻 Developer
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Built by Alex Obi.
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

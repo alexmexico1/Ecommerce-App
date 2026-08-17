@@ -49,3 +49,5 @@ app-example
 .alex-obi-backups/
 .repair-backups/
 backup-*/
+.vercel
+.env*
