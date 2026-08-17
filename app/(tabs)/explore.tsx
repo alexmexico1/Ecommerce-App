@@ -12,6 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useShop } from '../../context/ShopContext';
+import { getAlexObiTheme } from '../../lib/alexObiTheme';
 
 type Product = {
   id:string;
@@ -69,7 +70,8 @@ export default function ExploreScreen() {
   const { width } = useWindowDimensions();
   const params = useLocalSearchParams();
   const initial = typeof params.category === 'string' ? params.category : 'All';
-  const { products, wishlist, toggleWishlist, theme } = useShop() as ShopState;
+  const { products, wishlist, toggleWishlist, isDark } = useShop() as any;
+  const theme = getAlexObiTheme(isDark);
   const [category, setCategory] = useState(initial);
 
   const filtered = useMemo(

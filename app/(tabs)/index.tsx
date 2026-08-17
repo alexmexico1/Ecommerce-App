@@ -343,7 +343,7 @@ export default function HomeScreen() {
               onPress={() => goCategory(current.category)}
             >
               <Text style={styles.heroButtonText}>{current.button}</Text>
-              <Ionicons name="arrow-forward" size={17} color="#111426" />
+              <Ionicons name="arrow-forward" size={17} color="#171322" />
             </Pressable>
           </View>
 
@@ -497,7 +497,7 @@ const styles = StyleSheet.create({
     gap:12,
   },
   announcementItem:{flexDirection:'row',alignItems:'center',gap:5},
-  announcementText:{color:'#171321',fontSize:10,fontWeight:'800'},
+  announcementText:{color:'#FFFFFF',fontSize:10,fontWeight:'800'},
   header:{
     minHeight:82,
     paddingHorizontal:20,
@@ -534,7 +534,7 @@ const styles = StyleSheet.create({
     width:16,height:16,borderRadius:8,
     alignItems:'center',justifyContent:'center',
   },
-  notificationText:{color:'#7C3AED',fontSize:8,fontWeight:'900'},
+  notificationText:{color:'#FFFFFF',fontSize:8,fontWeight:'900'},
   cartHeader:{
     width:46,height:46,borderRadius:14,
     alignItems:'center',justifyContent:'center',
@@ -545,7 +545,7 @@ const styles = StyleSheet.create({
     minWidth:18,height:18,borderRadius:9,
     alignItems:'center',justifyContent:'center',
   },
-  cartBadgeText:{color:'#171321',fontSize:9,fontWeight:'900'},
+  cartBadgeText:{color:'#FFFFFF',fontSize:9,fontWeight:'900'},
   nav:{
     paddingHorizontal:18,
     minHeight:48,
@@ -611,7 +611,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     gap:8,
   },
-  heroButtonText:{color:'#111426',fontSize:13,fontWeight:'900'},
+  heroButtonText:{color:'#171322',fontSize:13,fontWeight:'900'},
   carouselArrow:{
     position:'absolute',
     zIndex:5,
@@ -686,7 +686,7 @@ const styles = StyleSheet.create({
     overflow:'hidden',
   },
   promoEyebrow:{color:'rgba(255,255,255,.82)',fontSize:9,fontWeight:'900',letterSpacing:1},
-  promoTitle:{color:'#171321',fontSize:22,fontWeight:'900',marginTop:6},
+  promoTitle:{color:'#FFFFFF',fontSize:22,fontWeight:'900',marginTop:6},
   promoCopy:{color:'rgba(255,255,255,.9)',fontSize:12,fontWeight:'700',marginTop:1},
   promoButton:{
     alignSelf:'flex-start',
@@ -696,7 +696,7 @@ const styles = StyleSheet.create({
     paddingHorizontal:13,
     paddingVertical:8,
   },
-  promoButtonText:{fontSize:10,fontWeight:'900',color:'#111426'},
+  promoButtonText:{fontSize:10,fontWeight:'900',color:'#171322'},
   sectionHeader:{
     paddingHorizontal:20,
     paddingTop:5,
@@ -729,7 +729,7 @@ const styles = StyleSheet.create({
     paddingVertical:5,
     borderRadius:7,
   },
-  discountText:{color:'#171321',fontSize:8,fontWeight:'900'},
+  discountText:{color:'#FFFFFF',fontSize:8,fontWeight:'900'},
   wishButton:{
     position:'absolute',
     top:8,right:8,
@@ -767,7 +767,7 @@ const styles = StyleSheet.create({
     gap:20,
   },
   bottomEyebrow:{color:'#A5B4FC',fontSize:9,fontWeight:'900',letterSpacing:1.5},
-  bottomTitle:{color:'#171321',fontSize:24,fontWeight:'900',marginTop:5},
+  bottomTitle:{color:'#FFFFFF',fontSize:24,fontWeight:'900',marginTop:5},
   bottomCopy:{color:'#D9D6FF',fontSize:12,lineHeight:18,marginTop:5,maxWidth:600},
   bottomButton:{
     borderRadius:13,

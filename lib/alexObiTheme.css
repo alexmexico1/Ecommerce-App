@@ -87,7 +87,7 @@ a {
 .alex-button,
 .primary-button {
   background: var(--alex-brand) !important;
-  color: #ffffff !important;
+  color: var(--ao-text)fff !important;
 }
 
 .dark-button {
@@ -123,7 +123,7 @@ a {
     #a855f7 100%
   ) !important;
 
-  color: #ffffff !important;
+  color: var(--ao-text)fff !important;
 }
 
 .alex-promo h1,
@@ -132,7 +132,7 @@ a {
 .alex-promo p,
 .alex-promo span,
 .alex-promo small {
-  color: #ffffff !important;
+  color: var(--ao-text)fff !important;
 }
 
 /* Cards */
@@ -162,7 +162,7 @@ a {
 /* Footer */
 .alex-footer {
   background: #111111 !important;
-  color: #ffffff !important;
+  color: var(--ao-text)fff !important;
 }
 
 .alex-footer h1,
@@ -172,7 +172,7 @@ a {
 .alex-footer p,
 .alex-footer span,
 .alex-footer a {
-  color: #ffffff !important;
+  color: var(--ao-text)fff !important;
 }
 
 /* Navigation */

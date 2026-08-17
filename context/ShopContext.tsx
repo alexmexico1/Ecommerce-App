@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
 
 import { products as catalogProducts } from '../data/products';
+import { getAlexObiTheme, type AlexObiTheme } from '../lib/alexObiTheme';
 
 const THEME_STORAGE_KEY = 'alex-obi-theme';
 
@@ -98,7 +99,8 @@ export type ShopContextValue = {
   products: Product[];
   cart: CartItem[];
   notifications: NotificationItem[];
-  theme: ThemeMode;
+  theme: AlexObiTheme;
+  themeMode: ThemeMode;
   isDark: boolean;
 
   wishlist: string[];
@@ -345,6 +347,8 @@ export function ShopProvider({
       0
     );
 
+    const theme = getAlexObiTheme(state.theme === 'dark');
+
     return {
       state,
       dispatch,
@@ -352,7 +356,8 @@ export function ShopProvider({
       products: state.products,
       cart: state.cart,
       notifications: state.notifications,
-      theme: state.theme,
+      theme,
+      themeMode: state.theme,
       isDark: state.theme === 'dark',
       wishlist: state.wishlist,
       toggleWishlist: (id: string) => {
@@ -425,6 +430,19 @@ export function ShopProvider({
           type: 'SET_THEME',
           payload: theme,
         });
+
+        if (typeof window !== 'undefined') {
+          try {
+            window.localStorage.setItem(ALEX_THEME_KEY, theme);
+          } catch {}
+
+          const browserTheme =
+            (window as any).__ALEX_OBI_APPLY_THEME;
+
+          if (typeof browserTheme === 'function') {
+            browserTheme(theme);
+          }
+        }
       },
 
       addNotification: (

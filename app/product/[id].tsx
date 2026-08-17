@@ -11,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useShop } from '../../context/ShopContext';
+import { getAlexObiTheme } from '../../lib/alexObiTheme';
 
 type Product = {
   id:string;
