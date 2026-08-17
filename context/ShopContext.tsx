@@ -2,8 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
 
 import { products as catalogProducts } from '../data/products';
-const THEME_STORAGE_KEY = '@alex_obi_theme';
 
+const THEME_STORAGE_KEY = 'alex-obi-theme';
 const ALEX_THEME_KEY = 'alex-obi-theme';
 
 function readTheme(): ThemeMode {

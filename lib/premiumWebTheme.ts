@@ -3,242 +3,161 @@ export type PremiumTheme = 'light' | 'dark';
 const STORAGE_KEY = 'alex-obi-theme';
 
 const LIGHT = {
-  background: '#F7F7FB',
+  bg: '#F7F5FC',
   surface: '#FFFFFF',
-  surface2: '#F1F0F8',
-  text: '#17151F',
-  muted: '#686477',
-  border: '#E7E4EE',
+  surface2: '#EEE8F8',
+  text: '#17121F',
+  muted: '#625B70',
+  border: '#D9D1E5',
   brand: '#6D28D9',
   brand2: '#8B5CF6',
   accent: '#C026D3',
 };
 
 const DARK = {
-  background: '#0B0910',
-  surface: '#15121C',
-  surface2: '#201B2A',
-  text: '#F7F5FF',
-  muted: '#B8B1C8',
-  border: '#302A3B',
+  bg: '#0B0810',
+  surface: '#15101C',
+  surface2: '#21182B',
+  text: '#FFFFFF',
+  muted: '#BDB3C9',
+  border: '#392D45',
   brand: '#A78BFA',
   brand2: '#8B5CF6',
   accent: '#E879F9',
 };
 
-function getTheme(): PremiumTheme {
-  if (typeof window === 'undefined') return 'light';
-
-  const saved = window.localStorage.getItem(STORAGE_KEY);
-  if (saved === 'dark' || saved === 'light') return saved;
-
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+function colors(theme: PremiumTheme) {
+  return theme === 'dark' ? DARK : LIGHT;
 }
 
-function apply(theme: PremiumTheme) {
+export function getPremiumTheme(): PremiumTheme {
+  if (typeof window === 'undefined') return 'light';
+
+  try {
+    const saved = window.localStorage.getItem(STORAGE_KEY);
+
+    if (saved === 'dark' || saved === 'light') {
+      return saved;
+    }
+
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  } catch {
+    return 'light';
+  }
+}
+
+export function applyPremiumTheme(theme: PremiumTheme): void {
   if (typeof document === 'undefined') return;
 
   const root = document.documentElement;
-  const colors = theme === 'dark' ? DARK : LIGHT;
+  const c = colors(theme);
 
   root.dataset.alexTheme = theme;
+  root.style.colorScheme = theme;
 
-  root.style.setProperty('--alex-bg', colors.background);
-  root.style.setProperty('--alex-surface', colors.surface);
-  root.style.setProperty('--alex-surface-2', colors.surface2);
-  root.style.setProperty('--alex-text', colors.text);
-  root.style.setProperty('--alex-muted', colors.muted);
-  root.style.setProperty('--alex-border', colors.border);
-  root.style.setProperty('--alex-brand', colors.brand);
-  root.style.setProperty('--alex-brand-2', colors.brand2);
-  root.style.setProperty('--alex-accent', colors.accent);
+  const vars: Record<string, string> = {
+    '--alex-bg': c.bg,
+    '--alex-surface': c.surface,
+    '--alex-surface2': c.surface2,
+    '--alex-text': c.text,
+    '--alex-muted': c.muted,
+    '--alex-border': c.border,
+    '--alex-brand': c.brand,
+    '--alex-brand2': c.brand2,
+    '--alex-accent': c.accent,
+  };
 
-  document.body.style.background = colors.background;
-  document.body.style.color = colors.text;
-  document.body.style.margin = '0';
-  document.body.style.minHeight = '100vh';
+  Object.entries(vars).forEach(([name, value]) => {
+    root.style.setProperty(name, value);
+  });
 
-  let style = document.getElementById('alex-obi-premium-style');
+  document.body.style.backgroundColor = c.bg;
+  document.body.style.color = c.text;
+
+  let style = document.getElementById('alex-obi-theme');
 
   if (!style) {
     style = document.createElement('style');
-    style.id = 'alex-obi-premium-style';
+    style.id = 'alex-obi-theme';
     document.head.appendChild(style);
   }
 
   style.textContent = `
-    :root {
-      --alex-bg: ${colors.background};
-      --alex-surface: ${colors.surface};
-      --alex-surface-2: ${colors.surface2};
-      --alex-text: ${colors.text};
-      --alex-muted: ${colors.muted};
-      --alex-border: ${colors.border};
-      --alex-brand: ${colors.brand};
-      --alex-brand-2: ${colors.brand2};
-      --alex-accent: ${colors.accent};
-    }
-
     html,
     body,
     #root {
-      background: var(--alex-bg) !important;
-      color: var(--alex-text) !important;
-      min-height: 100%;
+      background: ${c.bg} !important;
+      color: ${c.text} !important;
     }
 
     body {
-      transition:
-        background-color .25s ease,
-        color .25s ease;
-      font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+      margin: 0;
+      min-height: 100vh;
     }
 
     input,
     textarea,
     select {
-      color: var(--alex-text) !important;
-      background: var(--alex-surface) !important;
-      border-color: var(--alex-border) !important;
+      color: ${c.text} !important;
+      background: ${c.surface} !important;
+      border-color: ${c.border} !important;
     }
 
     input::placeholder,
     textarea::placeholder {
-      color: var(--alex-muted) !important;
+      color: ${c.muted} !important;
       opacity: 1 !important;
     }
 
-    button {
-      font-family: inherit;
-    }
-
-    a {
-      color: inherit;
-    }
-
     [data-alex-brand] {
-      color: var(--alex-brand) !important;
-    }
-
-    [data-alex-muted] {
-      color: var(--alex-muted) !important;
+      color: ${c.brand} !important;
     }
 
     [data-alex-surface] {
-      background: var(--alex-surface) !important;
-      border-color: var(--alex-border) !important;
+      background: ${c.surface} !important;
+      color: ${c.text} !important;
+      border-color: ${c.border} !important;
     }
 
     [data-alex-gradient] {
-      background:
-        linear-gradient(
-          135deg,
-          var(--alex-brand),
-          var(--alex-brand-2),
-          var(--alex-accent)
-        ) !important;
+      background: linear-gradient(
+        135deg,
+        ${c.brand},
+        ${c.brand2},
+        ${c.accent}
+      ) !important;
+      color: #FFFFFF !important;
     }
 
-    /*
-     * Repair the white-on-white problem created by legacy inline
-     * React Native Web styles.
-     */
-    [data-alex-theme="light"] .alex-legacy-white-fix {
-      color: var(--alex-text) !important;
+    [data-alex-muted] {
+      color: ${c.muted} !important;
     }
 
-    [data-alex-theme="dark"] .alex-legacy-white-fix {
-      color: var(--alex-text) !important;
-    }
-
-    @media (max-width: 768px) {
-      body {
-        overflow-x: hidden;
-      }
+    [data-alex-theme="light"] .alex-readable-white {
+      color: ${c.text} !important;
     }
   `;
-
-  repairWhiteOnWhite(theme);
 }
 
-function repairWhiteOnWhite(theme: PremiumTheme) {
-  if (typeof document === 'undefined') return;
-
-  const colors = theme === 'dark' ? DARK : LIGHT;
-
-  const elements = document.querySelectorAll<HTMLElement>(
-    'body *'
-  );
-
-  elements.forEach((el) => {
-    const computed = window.getComputedStyle(el);
-
-    const color = computed.color;
-    const background = computed.backgroundColor;
-
-    const whiteText =
-      color === 'rgb(255, 255, 255)' ||
-      color === 'rgba(255, 255, 255, 1)' ||
-      color === 'rgb(250, 250, 250)' ||
-      color === 'rgba(250, 250, 250, 1)';
-
-    const lightBackground =
-      background === 'rgb(255, 255, 255)' ||
-      background === 'rgba(255, 255, 255, 1)' ||
-      background === 'rgb(247, 247, 251)' ||
-      background === 'rgba(247, 247, 251, 1)';
-
-    if (whiteText && lightBackground) {
-      el.classList.add('alex-legacy-white-fix');
-      el.style.setProperty('color', colors.text, 'important');
-    }
-  });
-}
-
-export function installPremiumWebTheme() {
-  if (typeof window === 'undefined') return;
-
-  const theme = getTheme();
-  apply(theme);
-
-  const observer = new MutationObserver(() => {
-    repairWhiteOnWhite(theme);
-  });
-
-  if (document.body) {
-    observer.observe(document.body, {
-      subtree: true,
-      childList: true,
-      attributes: true,
-      attributeFilter: ['style', 'class'],
-    });
+export function setPremiumTheme(theme: PremiumTheme): void {
+  if (typeof window !== 'undefined') {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, theme);
+    } catch {}
   }
 
-  return () => observer.disconnect();
-}
-
-export function setPremiumTheme(theme: PremiumTheme) {
-  if (typeof window === 'undefined') return;
-
-  window.localStorage.setItem(STORAGE_KEY, theme);
-  apply(theme);
-}
-
-export function getPremiumTheme(): PremiumTheme {
-  return getTheme();
+  applyPremiumTheme(theme);
 }
 
 export function togglePremiumTheme(): PremiumTheme {
-  const next = getTheme() === 'dark' ? 'light' : 'dark';
+  const next = getPremiumTheme() === 'dark' ? 'light' : 'dark';
   setPremiumTheme(next);
   return next;
+}
+
+export function installPremiumWebTheme(): void {
+  if (typeof window === 'undefined') return;
+  applyPremiumTheme(getPremiumTheme());
 }

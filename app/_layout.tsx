@@ -4,25 +4,33 @@ import { StatusBar } from 'expo-status-bar';
 import { ShopProvider, useShop } from '../context/ShopContext';
 import { installPremiumWebTheme } from '../lib/premiumWebTheme';
 
-function RootNavigator() {
-  const { isDark } = useShop();
-
+function ThemeBoot() {
   useEffect(() => {
-    const cleanup = installPremiumWebTheme();
-
-    return () => {
-      if (typeof cleanup === 'function') cleanup();
-    };
+    installPremiumWebTheme();
   }, []);
+
+  return null;
+}
+
+function AppNavigator() {
+  const shop = useShop();
+
+  const isDark =
+    typeof shop.isDark === 'boolean'
+      ? shop.isDark
+      : shop.theme === 'dark';
 
   return (
     <>
+      <ThemeBoot />
+
       <StatusBar style={isDark ? 'light' : 'dark'} />
+
       <Stack
         screenOptions={{
           headerShown: false,
           contentStyle: {
-            backgroundColor: isDark ? '#0B0910' : '#F7F7FB',
+            backgroundColor: isDark ? '#0B0810' : '#F7F5FC',
           },
         }}
       />
@@ -33,7 +41,7 @@ function RootNavigator() {
 export default function RootLayout() {
   return (
     <ShopProvider>
-      <RootNavigator />
+      <AppNavigator />
     </ShopProvider>
   );
 }
