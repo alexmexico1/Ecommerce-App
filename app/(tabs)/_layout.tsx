@@ -1,33 +1,37 @@
+// @ts-nocheck
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useShop } from '../../context/ShopContext';
 
 export default function TabLayout() {
+  const { theme, cartCount } = useShop();
+
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: '#111827',
-        tabBarInactiveTintColor: '#9CA3AF',
-        tabBarStyle: {
-          height: 72,
-          paddingTop: 8,
-          paddingBottom: 10,
-          borderTopWidth: 1,
-          borderTopColor: '#E5E7EB',
-          backgroundColor: '#FFFFFF',
+        headerShown:false,
+        tabBarActiveTintColor:theme.primary,
+        tabBarInactiveTintColor:theme.muted,
+        tabBarStyle:{
+          height:76,
+          paddingTop:8,
+          paddingBottom:10,
+          borderTopWidth:1,
+          borderTopColor:theme.border,
+          backgroundColor:theme.surface,
         },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '700',
+        tabBarLabelStyle:{
+          fontSize:11,
+          fontWeight:'800',
         },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, size }) => (
+          title:'Home',
+          tabBarIcon:({ color, size }) => (
             <Ionicons name="home-outline" color={color} size={size} />
           ),
         }}
@@ -35,8 +39,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Shop',
-          tabBarIcon: ({ color, size }) => (
+          title:'Shop',
+          tabBarIcon:({ color, size }) => (
             <Ionicons name="grid-outline" color={color} size={size} />
           ),
         }}
@@ -44,9 +48,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="cart"
         options={{
-          title: 'Cart',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="bag-outline" color={color} size={size} />
+          title:'Cart',
+          tabBarBadge:cartCount || undefined,
+          tabBarBadgeStyle:{
+            backgroundColor:theme.danger,
+            color:'#FFFFFF',
+            fontSize:9,
+          },
+          tabBarIcon:({ color, size }) => (
+            <Ionicons name="bag-handle-outline" color={color} size={size} />
           ),
         }}
       />

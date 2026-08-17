@@ -13,5 +13,16 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".expo",
+    "backup-*",
+    "backup-*/**",
+    "backup-alex-obi-*",
+    "backup-alex-obi-*/**",
+    "backup-typescript-fix-*",
+    "backup-typescript-fix-*/**"
   ]
 }

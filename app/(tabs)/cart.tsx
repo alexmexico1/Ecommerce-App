@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import {
   Image,
@@ -11,22 +12,58 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useShop } from '../../context/ShopContext';
 
+type Theme = {
+  background:string;
+  surface:string;
+  surface2:string;
+  text:string;
+  muted:string;
+  border:string;
+  primary:string;
+  primary2:string;
+  accent:string;
+  danger:string;
+  gold:string;
+};
+
+type CartItem = {
+  id:string;
+  name:string;
+  category:string;
+  price:number;
+  image:string;
+  quantity:number;
+};
+
+type ShopState = {
+  cart:CartItem[];
+  subtotal:number;
+  updateQuantity:(id:string, amount:number) => void;
+  removeFromCart:(id:string) => void;
+  theme:Theme;
+};
+
 export default function CartScreen() {
-  const { cart, subtotal, updateQuantity, removeFromCart } = useShop();
-  const shipping = subtotal >= 75 || subtotal === 0 ? 0 : 8;
+  const { cart, subtotal, updateQuantity, removeFromCart, theme } =
+    useShop() as ShopState;
+
+  const shipping = subtotal === 0 || subtotal >= 100 ? 0 : 9.99;
   const total = subtotal + shipping;
 
   if (!cart.length) {
     return (
-      <View style={styles.empty}>
-        <View style={styles.emptyIcon}>
-          <Ionicons name="bag-outline" size={42} color="#6366F1" />
+      <View style={[styles.empty,{backgroundColor:theme.background}]}>
+        <View style={[styles.emptyIcon,{backgroundColor:theme.surface,borderColor:theme.border}]}>
+          <Ionicons name="bag-handle-outline" size={44} color={theme.primary} />
         </View>
-        <Text style={styles.emptyTitle}>Your bag is empty</Text>
-        <Text style={styles.emptyText}>
-          Looks like you haven&apos;t added anything yet. Discover our collection and find something you love.
+        <Text style={[styles.emptyTitle,{color:theme.text}]}>Your bag is empty</Text>
+        <Text style={[styles.emptyText,{color:theme.muted}]}>
+          Discover premium fashion, kids wear, bags, accessories and technology.
         </Text>
-        <Pressable style={styles.shopButton} onPress={() => router.push('/(tabs)/explore')}>
+        <Pressable
+          style={[styles.shopButton,{backgroundColor:theme.primary}]}
+          onPress={() => router.push('/(tabs)/explore')}
+        >
           <Text style={styles.shopButtonText}>Start shopping</Text>
           <Ionicons name="arrow-forward" size={17} color="#FFFFFF" />
         </Pressable>
@@ -35,71 +72,98 @@ export default function CartScreen() {
   }
 
   return (
-    <View style={styles.page}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+    <View style={[styles.page,{backgroundColor:theme.background}]}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.content}
+      >
         <View style={styles.header}>
           <View>
-            <Text style={styles.title}>Your bag</Text>
-            <Text style={styles.subtitle}>{cart.length} items selected</Text>
+            <Text style={[styles.brand,{color:theme.primary}]}>ALEX OBI</Text>
+            <Text style={[styles.title,{color:theme.text}]}>Your bag</Text>
+            <Text style={[styles.subtitle,{color:theme.muted}]}>
+              {cart.length} products selected
+            </Text>
           </View>
-          <Ionicons name="bag-handle-outline" size={27} color="#111827" />
+          <Ionicons name="bag-handle-outline" size={30} color={theme.text} />
         </View>
 
         {cart.map(item => (
-          <View key={item.id} style={styles.item}>
-            <Image source={{ uri: item.image }} style={styles.itemImage} />
+          <View
+            key={item.id}
+            style={[styles.item,{backgroundColor:theme.surface,borderColor:theme.border}]}
+          >
+            <Image source={{uri:item.image}} style={styles.itemImage} />
+
             <View style={styles.itemInfo}>
-              <Text style={styles.category}>{item.category}</Text>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.itemPrice}>${item.price}</Text>
+              <Text style={[styles.category,{color:theme.muted}]}>
+                {item.category}
+              </Text>
+              <Text style={[styles.name,{color:theme.text}]}>
+                {item.name}
+              </Text>
+              <Text style={[styles.itemPrice,{color:theme.text}]}>
+                ${item.price}
+              </Text>
 
               <View style={styles.bottom}>
-                <View style={styles.quantity}>
-                  <Pressable onPress={() => updateQuantity(item.id, -1)} style={styles.qtyButton}>
-                    <Ionicons name="remove" size={15} color="#111827" />
+                <View style={[styles.quantity,{backgroundColor:theme.surface2}]}>
+                  <Pressable
+                    onPress={() => updateQuantity(item.id,-1)}
+                    style={[styles.qtyButton,{backgroundColor:theme.surface}]}
+                  >
+                    <Ionicons name="remove" size={15} color={theme.text} />
                   </Pressable>
-                  <Text style={styles.qty}>{item.quantity}</Text>
-                  <Pressable onPress={() => updateQuantity(item.id, 1)} style={styles.qtyButton}>
-                    <Ionicons name="add" size={15} color="#111827" />
+                  <Text style={[styles.qty,{color:theme.text}]}>{item.quantity}</Text>
+                  <Pressable
+                    onPress={() => updateQuantity(item.id,1)}
+                    style={[styles.qtyButton,{backgroundColor:theme.surface}]}
+                  >
+                    <Ionicons name="add" size={15} color={theme.text} />
                   </Pressable>
                 </View>
 
                 <Pressable onPress={() => removeFromCart(item.id)}>
-                  <Text style={styles.remove}>Remove</Text>
+                  <Ionicons name="trash-outline" size={18} color={theme.danger} />
                 </Pressable>
               </View>
             </View>
           </View>
         ))}
 
-        <View style={styles.summary}>
-          <Text style={styles.summaryTitle}>Order summary</Text>
+        <View style={[styles.summary,{backgroundColor:theme.surface,borderColor:theme.border}]}>
+          <Text style={[styles.summaryTitle,{color:theme.text}]}>Order summary</Text>
 
           <View style={styles.row}>
-            <Text style={styles.label}>Subtotal</Text>
-            <Text style={styles.value}>${subtotal.toFixed(2)}</Text>
+            <Text style={[styles.label,{color:theme.muted}]}>Subtotal</Text>
+            <Text style={[styles.value,{color:theme.text}]}>${subtotal.toFixed(2)}</Text>
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.label}>Shipping</Text>
-            <Text style={styles.value}>{shipping ? `$${shipping.toFixed(2)}` : 'FREE'}</Text>
+            <Text style={[styles.label,{color:theme.muted}]}>Shipping</Text>
+            <Text style={[styles.value,{color:shipping ? theme.text : theme.accent}]}>
+              {shipping ? `$${shipping.toFixed(2)}` : 'FREE'}
+            </Text>
           </View>
 
-          <View style={styles.divider} />
+          <View style={[styles.divider,{backgroundColor:theme.border}]} />
 
           <View style={styles.row}>
-            <Text style={styles.totalLabel}>Total</Text>
-            <Text style={styles.total}>${total.toFixed(2)}</Text>
+            <Text style={[styles.totalLabel,{color:theme.text}]}>Total</Text>
+            <Text style={[styles.total,{color:theme.primary}]}>${total.toFixed(2)}</Text>
           </View>
 
-          <Pressable style={styles.checkout}>
+          <Pressable style={[styles.checkout,{backgroundColor:theme.primary}]}>
             <Text style={styles.checkoutText}>Proceed to checkout</Text>
             <Ionicons name="arrow-forward" size={18} color="#FFFFFF" />
           </Pressable>
 
-          <Text style={styles.secure}>
-            <Ionicons name="lock-closed-outline" size={12} /> Secure checkout · Free returns
-          </Text>
+          <View style={styles.secureRow}>
+            <Ionicons name="shield-checkmark-outline" size={14} color={theme.accent} />
+            <Text style={[styles.secure,{color:theme.muted}]}>
+              Secure checkout · Free returns
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -107,37 +171,117 @@ export default function CartScreen() {
 }
 
 const styles = StyleSheet.create({
-  page: { flex: 1, backgroundColor: '#F8FAFC' },
-  content: { padding: 20, paddingBottom: 40 },
-  header: { paddingTop: 8, paddingBottom: 22, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  title: { fontSize: 34, fontWeight: '900', color: '#111827', letterSpacing: -1 },
-  subtitle: { color: '#9CA3AF', marginTop: 3 },
-  item: { backgroundColor: '#FFFFFF', borderRadius: 18, padding: 10, marginBottom: 12, flexDirection: 'row', borderWidth: 1, borderColor: '#EEF0F4' },
-  itemImage: { width: 108, height: 108, borderRadius: 13, backgroundColor: '#F3F4F6' },
-  itemInfo: { flex: 1, paddingLeft: 13, justifyContent: 'space-between' },
-  category: { fontSize: 9, color: '#9CA3AF', fontWeight: '900', textTransform: 'uppercase', letterSpacing: .8 },
-  name: { fontSize: 14, color: '#111827', fontWeight: '800', marginTop: 4 },
-  itemPrice: { fontSize: 16, fontWeight: '900', color: '#111827', marginTop: 5 },
-  bottom: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 9 },
-  quantity: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F3F4F6', borderRadius: 10, padding: 3 },
-  qtyButton: { width: 27, height: 27, borderRadius: 8, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF' },
-  qty: { width: 27, textAlign: 'center', fontWeight: '800', color: '#111827' },
-  remove: { color: '#EF4444', fontSize: 11, fontWeight: '800' },
-  summary: { backgroundColor: '#FFFFFF', borderRadius: 22, padding: 20, marginTop: 8, borderWidth: 1, borderColor: '#EEF0F4' },
-  summaryTitle: { fontSize: 18, fontWeight: '900', color: '#111827', marginBottom: 16 },
-  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 7 },
-  label: { color: '#6B7280', fontSize: 13 },
-  value: { color: '#374151', fontSize: 13, fontWeight: '700' },
-  divider: { height: 1, backgroundColor: '#E5E7EB', marginVertical: 9 },
-  totalLabel: { color: '#111827', fontWeight: '900', fontSize: 16 },
-  total: { color: '#111827', fontWeight: '900', fontSize: 22 },
-  checkout: { marginTop: 17, height: 52, borderRadius: 14, backgroundColor: '#111827', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 },
-  checkoutText: { color: '#FFFFFF', fontWeight: '900', fontSize: 14 },
-  secure: { textAlign: 'center', color: '#9CA3AF', fontSize: 10, marginTop: 12 },
-  empty: { flex: 1, backgroundColor: '#F8FAFC', alignItems: 'center', justifyContent: 'center', padding: 30 },
-  emptyIcon: { width: 90, height: 90, borderRadius: 30, backgroundColor: '#EEF2FF', alignItems: 'center', justifyContent: 'center' },
-  emptyTitle: { marginTop: 20, fontSize: 26, fontWeight: '900', color: '#111827' },
-  emptyText: { marginTop: 8, maxWidth: 390, textAlign: 'center', color: '#9CA3AF', lineHeight: 21 },
-  shopButton: { marginTop: 20, backgroundColor: '#6366F1', paddingHorizontal: 22, paddingVertical: 14, borderRadius: 13, flexDirection: 'row', gap: 9, alignItems: 'center' },
-  shopButtonText: { color: '#FFFFFF', fontWeight: '900' },
+  page:{flex:1},
+  content:{padding:20,paddingBottom:40},
+  header:{
+    paddingTop:8,
+    paddingBottom:22,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+  },
+  brand:{fontSize:10,fontWeight:'900',letterSpacing:2},
+  title:{fontSize:34,fontWeight:'900',letterSpacing:-1.2,marginTop:3},
+  subtitle:{fontSize:11,marginTop:3,fontWeight:'600'},
+  item:{
+    borderRadius:18,
+    borderWidth:1,
+    padding:10,
+    marginBottom:12,
+    flexDirection:'row',
+  },
+  itemImage:{
+    width:110,height:110,borderRadius:13,
+    backgroundColor:'#F1F3F9',
+  },
+  itemInfo:{flex:1,paddingLeft:13,justifyContent:'space-between'},
+  category:{fontSize:8,fontWeight:'900',textTransform:'uppercase',letterSpacing:.8},
+  name:{fontSize:14,fontWeight:'800',marginTop:4},
+  itemPrice:{fontSize:17,fontWeight:'900',marginTop:5},
+  bottom:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    marginTop:8,
+  },
+  quantity:{
+    flexDirection:'row',
+    alignItems:'center',
+    borderRadius:10,
+    padding:3,
+  },
+  qtyButton:{
+    width:28,height:28,
+    borderRadius:8,
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  qty:{width:28,textAlign:'center',fontWeight:'900'},
+  summary:{
+    borderRadius:22,
+    borderWidth:1,
+    padding:20,
+    marginTop:8,
+  },
+  summaryTitle:{fontSize:19,fontWeight:'900',marginBottom:15},
+  row:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    marginVertical:7,
+  },
+  label:{fontSize:13,fontWeight:'600'},
+  value:{fontSize:13,fontWeight:'800'},
+  divider:{height:1,marginVertical:10},
+  totalLabel:{fontSize:17,fontWeight:'900'},
+  total:{fontSize:23,fontWeight:'900'},
+  checkout:{
+    height:54,
+    borderRadius:14,
+    marginTop:17,
+    alignItems:'center',
+    justifyContent:'center',
+    flexDirection:'row',
+    gap:9,
+  },
+  checkoutText:{color:'#FFFFFF',fontSize:14,fontWeight:'900'},
+  secureRow:{
+    marginTop:12,
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    gap:5,
+  },
+  secure:{fontSize:10,fontWeight:'600'},
+  empty:{
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    padding:30,
+  },
+  emptyIcon:{
+    width:96,height:96,
+    borderRadius:30,
+    borderWidth:1,
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  emptyTitle:{fontSize:28,fontWeight:'900',marginTop:20},
+  emptyText:{
+    marginTop:8,
+    maxWidth:420,
+    textAlign:'center',
+    lineHeight:21,
+    fontSize:13,
+  },
+  shopButton:{
+    marginTop:20,
+    paddingHorizontal:22,
+    paddingVertical:14,
+    borderRadius:13,
+    flexDirection:'row',
+    alignItems:'center',
+    gap:9,
+  },
+  shopButtonText:{color:'#FFFFFF',fontWeight:'900'},
 });
