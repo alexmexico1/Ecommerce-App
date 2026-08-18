@@ -11,7 +11,6 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useShop } from '../../context/ShopContext';
-import { getAlexObiTheme } from '../../lib/alexObiTheme';
 
 type Theme = {
   background:string;

@@ -14,38 +14,8 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useShop } from '../../context/ShopContext';
 import { getAlexObiTheme } from '../../lib/alexObiTheme';
 
-type Product = {
-  id:string;
-  name:string;
-  category:string;
-  price:number;
-  oldPrice:number;
-  rating:number;
-  reviews:number;
-  badge:string;
-  image:string;
-};
 
-type Theme = {
-  background:string;
-  surface:string;
-  surface2:string;
-  text:string;
-  muted:string;
-  border:string;
-  primary:string;
-  primary2:string;
-  accent:string;
-  danger:string;
-  gold:string;
-};
 
-type ShopState = {
-  products:Product[];
-  wishlist:string[];
-  toggleWishlist:(id:string) => void;
-  theme:Theme;
-};
 
 const categories = [
   'All',

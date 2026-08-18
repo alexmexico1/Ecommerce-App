@@ -11,7 +11,7 @@
     "lint": "expo lint",
     "stripe": "node server/stripe-server.mjs",
     "dev": "concurrently -k -n STRIPE,EXPO -c magenta,cyan \"npm run stripe\" \"expo start -c\"",
-    "verify": "tsc --noEmit && expo-doctor && npm run lint"
+    "verify": "tsc --noEmit && npx expo-doctor && npm run lint"
   },
   "dependencies": {
     "@expo/metro-runtime": "~6.1.2",
@@ -26,8 +26,8 @@
     "concurrently": "^10.0.5",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "expo": "~54.0.36",
-    "expo-constants": "~18.0.13",
+    "expo": "~54.0.37",
+    "expo-constants": "~18.0.14",
     "expo-font": "~14.0.12",
     "expo-haptics": "~15.0.8",
     "expo-image": "~3.0.11",
